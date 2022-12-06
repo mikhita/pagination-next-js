@@ -29,7 +29,6 @@ const Home = () => {
           <tr>
             <th>Id</th>
             <th>Title</th>
-            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -37,9 +36,6 @@ const Home = () => {
             <tr key={post.id}>
               <td>{post.id}</td>
               <td>{post.title}</td>
-              <td>
-                <button className="btn btn-danger btn-sm">Delete</button>
-              </td>
             </tr>
           ))}
         </tbody>
