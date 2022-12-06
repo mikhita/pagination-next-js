@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-
+import Pagination from "../components/pagination";
 const Home = () => {
   const [posts, setPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
   useEffect(() => {
     const getPosts = async () => {
@@ -13,6 +15,8 @@ const Home = () => {
     };
     getPosts();
   }, []);
+
+  const handlePageChange = (page) => setCurrentPage(page);
 
   return (
     <div className="container">
@@ -36,6 +40,12 @@ const Home = () => {
           ))}
         </tbody>
       </table>
+      <Pagination
+        items={posts.length}
+        currentPage={currentPage}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };
