@@ -6,7 +6,8 @@ import { paginate } from "../utils/paginate";
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const [users, setUsers] = useState([]);
+  const pageSize = 20;
 
   useEffect(() => {
     const getPosts = async () => {
@@ -16,6 +17,15 @@ const Home = () => {
       setPosts(res);
     };
     getPosts();
+  }, []);
+  useEffect(() => {
+    const getUsers = async () => {
+      const { data: res } = await axios.get(
+        "https://jsonplaceholder.typicode.com/users"
+      );
+      setUsers(res);
+    };
+    getUsers();
   }, []);
 
   const handlePageChange = (page) => setCurrentPage(page);
@@ -27,17 +37,20 @@ const Home = () => {
       <table className="table">
         <thead>
           <tr>
-            <th>Id</th>
+            <th>User</th>
             <th>Title</th>
           </tr>
         </thead>
         <tbody>
-          {paginatePosts?.map((post) => (
-            <tr key={post.id}>
-              <td>{post.id}</td>
-              <td>{post.title}</td>
-            </tr>
-          ))}
+          {paginatePosts?.map((post) => {
+            const user = users.find((userObj) => userObj.id === post.userId);
+            return (
+              <tr key={post.id} style={{ cursor: "pointer" }}>
+                <td style={{ width: "20%" }}>{user.name}</td>
+                <td style={{ width: "80%" }}>{post.title}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       <Pagination
